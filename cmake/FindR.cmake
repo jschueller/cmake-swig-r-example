@@ -28,7 +28,7 @@ if (R_EXECUTABLE)
 endif ()
 
 find_program (R_EXECUTABLE
-               NAMES R R.exe
+               NAMES R
                DOC "Path to the R command interpreter"
              )
 
@@ -47,6 +47,14 @@ if (R_EXECUTABLE)
                     OUTPUT_VARIABLE _R_INCLUDE
                     OUTPUT_STRIP_TRAILING_WHITESPACE
                  )
+  execute_process (COMMAND ${R_EXECUTABLE} --slave --no-save -e "cat(R.home('lib'))"
+                    OUTPUT_VARIABLE _R_LIB
+                    OUTPUT_STRIP_TRAILING_WHITESPACE
+                 )
+  execute_process (COMMAND ${R_EXECUTABLE} --slave --no-save -e "cat(R.home('bin'))"
+                    OUTPUT_VARIABLE _R_BIN
+                    OUTPUT_STRIP_TRAILING_WHITESPACE
+                 )
   execute_process (COMMAND ${R_EXECUTABLE} --slave --no-save -e "cat(R.version.string)"
                     OUTPUT_VARIABLE R_VERSION_STRING
                     OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -62,13 +70,15 @@ find_path (R_INCLUDE_DIR
             ${_R_INCLUDE}
          )
 
+message(STATUS "_R_LIB=${_R_LIB} _R_BIN=${_R_BIN}")
 find_library (R_LIBRARIES
   NAMES R
   HINTS
   ${PC_R_LIBDIR}
   ${PC_R_LIBRARY_DIRS}
-  ${_R_HOME}/lib
-  ${_R_HOME}/lib/x86_64
+  ${_R_LIB}
+  ${_R_LIB}/x86_64
+  ${_R_BIN}
 )
 
 set (R_PACKAGES)

@@ -46,6 +46,9 @@ jobs:
         shell: cmd
         run: |
           del /s /q "C:\Program Files\R"
+          set "PATH=C:\Users\runneradmin\miniconda3\Scripts;%PATH%"
+          echo "PATH=%PATH%"
+          R --version
           set "LIB=C:\Users\runneradmin\miniconda3\Library\lib;%LIB%"
           set "INCLUDE=C:\Users\runneradmin\miniconda3\Library\include;%INCLUDE%"
           cmake -G Ninja -B . -LAH ^

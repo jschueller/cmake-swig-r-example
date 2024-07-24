@@ -42,15 +42,6 @@ if (R_EXECUTABLE)
                     OUTPUT_VARIABLE _R_HOME
                     OUTPUT_STRIP_TRAILING_WHITESPACE
                  )
-                  
-  execute_process (COMMAND ${R_EXECUTABLE} --slave --no-save -e "cat(R.home('include'))"
-                    OUTPUT_VARIABLE _R_INCLUDE
-                    OUTPUT_STRIP_TRAILING_WHITESPACE
-                 )
-  execute_process (COMMAND ${R_EXECUTABLE} --slave --no-save -e "cat(R.home('lib'))"
-                    OUTPUT_VARIABLE _R_LIB
-                    OUTPUT_STRIP_TRAILING_WHITESPACE
-                 )
   execute_process (COMMAND ${R_EXECUTABLE} --slave --no-save -e "cat(R.version.string)"
                     OUTPUT_VARIABLE R_VERSION_STRING
                     OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -63,20 +54,19 @@ endif ()
 find_path (R_INCLUDE_DIR
             NAMES R.h
             HINTS
-            ${_R_INCLUDE}
+            ${_R_HOME}/include
          )
 
 get_filename_component(_R_BIN "${R_EXECUTABLE}" DIRECTORY)
-message(STATUS "_R_LIB=${_R_LIB} _R_BIN=${_R_BIN}")
+message(STATUS "_R_HOME=${_R_HOME} _R_BIN=${_R_BIN}")
 
 find_library (R_LIBRARIES
   NAMES R R.lib
   HINTS
   ${PC_R_LIBDIR}
   ${PC_R_LIBRARY_DIRS}
-  ${_R_LIB}
-  ${_R_LIB}/x86_64
-  ${_R_BIN}
+  ${_R_HOME}/lib
+  ${_R_HOME}/lib/x86_64
 )
 
 set (R_PACKAGES)

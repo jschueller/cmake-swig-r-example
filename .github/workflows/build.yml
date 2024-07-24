@@ -50,8 +50,9 @@ jobs:
           dir /p C:\Users\runneradmin\miniconda3\Lib
           dir /p C:\Users\runneradmin\miniconda3\Lib\R\bin
           dir /p C:\Users\runneradmin\miniconda3\Lib\R\bin\x64
-          start "" C:\Users\runneradmin\miniconda3\Lib\R\bin\x64\R.exe --version
-          start "" C:\Users\runneradmin\miniconda3\Lib\R\bin\x64\Rscript.exe --version
+          set "PATH=C:\Users\runneradmin\miniconda3\Lib\R\bin\x64;%PATH%"
+          R --version
+          Rscript --version
           cmake -G Ninja -B . -LAH ^
            -DCMAKE_INSTALL_PREFIX="C:/Users/runneradmin/miniconda3/Library" ^
            -DCMAKE_PREFIX_PATH="C:/Users/runneradmin/miniconda3/Library" ^

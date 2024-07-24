@@ -38,8 +38,12 @@ find_program (RSCRIPT_EXECUTABLE
              )
              
 if (R_EXECUTABLE)
-  execute_process (COMMAND ${R_EXECUTABLE} --slave --no-save -e "cat(R.home('home'))"
+  execute_process (COMMAND ${R_EXECUTABLE} --slave --no-save -e "cat(R.home())"
                     OUTPUT_VARIABLE _R_HOME
+                    OUTPUT_STRIP_TRAILING_WHITESPACE
+                 )
+  execute_process (COMMAND ${R_EXECUTABLE} --slave --no-save -e "cat(R.home('include'))"
+                    OUTPUT_VARIABLE _R_INCLUDE
                     OUTPUT_STRIP_TRAILING_WHITESPACE
                  )
   execute_process (COMMAND ${R_EXECUTABLE} --slave --no-save -e "cat(R.version.string)"
@@ -54,7 +58,7 @@ endif ()
 find_path (R_INCLUDE_DIR
             NAMES R.h
             HINTS
-            ${_R_HOME}/include
+            ${_R_INCLUDE}
          )
 
 get_filename_component(_R_BIN "${R_EXECUTABLE}" DIRECTORY)
@@ -67,6 +71,8 @@ find_library (R_LIBRARIES
   ${PC_R_LIBRARY_DIRS}
   ${_R_HOME}/lib
   ${_R_HOME}/lib/x86_64
+  ${_R_BIN}
+  ${_R_BIN}/x64
 )
 
 set (R_PACKAGES)

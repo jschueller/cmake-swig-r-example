@@ -70,15 +70,19 @@ find_path (R_INCLUDE_DIR
             ${_R_INCLUDE}
          )
 
-message(STATUS "_R_LIB=${_R_LIB} _R_BIN=${_R_BIN}")
+file(TO_CMAKE_PATH "${_R_BIN}" _R_BIN2)
+message(STATUS "_R_LIB=${_R_LIB} _R_BIN=${_R_BIN} _R_BIN2=${_R_BIN2}")
+
+
 find_library (R_LIBRARIES
-  NAMES R
+  NAMES R R.lib
   HINTS
   ${PC_R_LIBDIR}
   ${PC_R_LIBRARY_DIRS}
   ${_R_LIB}
   ${_R_LIB}/x86_64
   ${_R_BIN}
+  ${_R_BIN2}
 )
 
 set (R_PACKAGES)

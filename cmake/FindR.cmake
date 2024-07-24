@@ -51,10 +51,6 @@ if (R_EXECUTABLE)
                     OUTPUT_VARIABLE _R_LIB
                     OUTPUT_STRIP_TRAILING_WHITESPACE
                  )
-  execute_process (COMMAND ${R_EXECUTABLE} --slave --no-save -e "cat(R.home('bin'))"
-                    OUTPUT_VARIABLE _R_BIN
-                    OUTPUT_STRIP_TRAILING_WHITESPACE
-                 )
   execute_process (COMMAND ${R_EXECUTABLE} --slave --no-save -e "cat(R.version.string)"
                     OUTPUT_VARIABLE R_VERSION_STRING
                     OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -70,9 +66,8 @@ find_path (R_INCLUDE_DIR
             ${_R_INCLUDE}
          )
 
-file(TO_CMAKE_PATH "${_R_BIN}" _R_BIN2)
-message(STATUS "_R_LIB=${_R_LIB} _R_BIN=${_R_BIN} _R_BIN2=${_R_BIN2}")
-
+get_filename_component(_R_BIN "${R_EXECUTABLE}" DIRECTORY)
+message(STATUS "_R_LIB=${_R_LIB} _R_BIN=${_R_BIN}")
 
 find_library (R_LIBRARIES
   NAMES R R.lib
@@ -82,7 +77,6 @@ find_library (R_LIBRARIES
   ${_R_LIB}
   ${_R_LIB}/x86_64
   ${_R_BIN}
-  ${_R_BIN2}
 )
 
 set (R_PACKAGES)

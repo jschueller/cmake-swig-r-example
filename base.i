@@ -2,6 +2,7 @@
 
 %{
 #include "Variable.h"
+#include <cstdint>
 %}
 
 %include <std_string.i>

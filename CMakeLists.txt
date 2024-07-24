@@ -38,8 +38,10 @@ add_library(agrum Variable.cpp)
 swig_add_library (base LANGUAGE R SOURCES base.i)
 
 message(STATUS "R_INCLUDE_DIR=${R_INCLUDE_DIR}")
+message(STATUS "R_LIBRARIES=${R_LIBRARIES}")
+
 target_include_directories(base PRIVATE ${R_INCLUDE_DIR})
-target_link_libraries(base PRIVATE ${R_LIBRARY})
+target_link_libraries(base PRIVATE ${R_LIBRARIES})
 target_link_libraries(base PRIVATE agrum)
 
 include (GNUInstallDirs)
